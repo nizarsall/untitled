@@ -78,10 +78,11 @@ class _MyAppState extends State<MyApp> {
     print("inside");
     print(dto);
     f.insert(dto.latitude, dto.longitude);
+    if(i==1){
     _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(dto.latitude, dto.longitude),
       zoom: 18.0,
-    )));
+    )));}
     //print(points);
     setState(() {
       lastLocation = dto;
@@ -190,7 +191,7 @@ class _MyAppState extends State<MyApp> {
           polylineId: PolylineId('$i'),
           points: dpoints,
           visible: true,
-          color: Colors.red,
+          color: Colors.green,
           width: 20));
    
   }
