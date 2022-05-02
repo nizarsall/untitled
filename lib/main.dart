@@ -211,8 +211,6 @@ class _MyAppState extends State<MyApp> {
                 zoom: 11.0,
               ),
             ),
-            FloatingActionButton(
-                onPressed: getCurrentLocation, child: Text("start")),
             Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Align(
@@ -221,7 +219,7 @@ class _MyAppState extends State<MyApp> {
                       onPressed: draw,
                       materialTapTargetSize: MaterialTapTargetSize.padded,
                       backgroundColor: Colors.green,
-                      child: const Icon(Icons.map, size: 36.0),
+                      child: Text("Draw")
                     ))),
           ])),
     );
