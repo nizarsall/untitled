@@ -11,7 +11,7 @@ class funcs {
 
   final dbHelper = DatabaseHelper.instance;
 
-  void insert(long, lat) async {
+  void insert( lat,long) async {
     // row to insert
     Map<String, dynamic> row = {
       DatabaseHelper.columnLong: long,
@@ -31,7 +31,7 @@ class funcs {
       //print(row['lat'].runtimeType);
       //print(row['long'].runtimeType);
       
-      result.add(LatLng(row['lat'], row['long']));
+      result.add(LatLng( row['lat'],row['long']));
     }
 
     return result;

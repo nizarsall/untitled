@@ -174,7 +174,7 @@ class _MyAppState extends State<MyApp> {
   void dispose() => super.dispose();
   GoogleMapController _controller;
 
-  static const LatLng _center = const LatLng(36.2798501, 36.2772437);
+  static const LatLng _center = const LatLng(33.5255936, 36.2771937);
 
   void _onMapCreated(GoogleMapController controller) {
     print('createddddddddddd');
@@ -206,10 +206,12 @@ class _MyAppState extends State<MyApp> {
           body: Stack(children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreated,
+              myLocationEnabled: true,
               polylines: polyline,
-              initialCameraPosition: CameraPosition(
+              initialCameraPosition: const CameraPosition(
                 target: _center,
                 zoom: 11.0,
+                
               ),
             ),
             Padding(
