@@ -13,6 +13,7 @@ class DatabaseHelper {
   static final columnId = '_id';
   static final columnLong = 'long';
   static final columnLat = 'lat';
+  static final columnTime = 'time';
 
   // make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -42,7 +43,8 @@ class DatabaseHelper {
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY,
             $columnLong INTEGER NOT NULL,
-            $columnLat INTEGER NOT NULL
+            $columnLat INTEGER NOT NULL,
+            $columnTime STRING  NOT NULL
           )
           ''');
  

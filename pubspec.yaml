@@ -41,6 +41,10 @@ dependencies:
   google_maps_flutter: 
   google_map_polyline : 
   path_provider:
+  background_fetch: ^1.1.0
+  shared_preferences: ^2.0.13
+  latlong2: ^0.8.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

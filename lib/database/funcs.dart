@@ -11,14 +11,16 @@ class funcs {
 
   final dbHelper = DatabaseHelper.instance;
 
-  void insert(long, lat) async {
+  void insert(lat, long, time) async {
     // row to insert
     Map<String, dynamic> row = {
+      DatabaseHelper.columnLat: lat,
       DatabaseHelper.columnLong: long,
-      DatabaseHelper.columnLat: lat
+      DatabaseHelper.columnTime:time,
     };
     final id = await dbHelper.insert(row);
     print('inserted row id: $id');
+    print(time);
   }
 
   Future<List<LatLng>> query() async {

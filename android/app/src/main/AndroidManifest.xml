@@ -10,8 +10,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
    <application
-        android:label="Yami"
-        android:icon="@mipmap/ic_launcher">
+       android:label="Yami"
+       android:icon="@mipmap/ic_launcher">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyBEwgj7AO_nxyDQtJRNJmssmvD8c8jXWnA"/>    

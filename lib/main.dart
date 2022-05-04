@@ -1,13 +1,20 @@
 import 'dart:async';
+
+import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'database/funcs.dart';
+import 'package:intl/intl.dart';
+
 
 final f = funcs.instance;
-void main() => runApp(MyApp());
+
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -24,6 +31,7 @@ Widget dtoWidget(LocationDto dto) {
     print('gg');
     return Text("No location yet");
   } else {
+    print('${DateTime.fromMillisecondsSinceEpoch(dto.time ~/ 1)}');
     return Column(
       children: <Widget>[
         Text(
@@ -39,6 +47,8 @@ Widget dtoWidget(LocationDto dto) {
 }
 
 class _MyAppState extends State<MyApp> {
+  List<DateTime> _events = [];
+
   String logStr = '';
   LocationDto lastLocation;
   DateTime lastTimeLocation;
@@ -53,8 +63,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     f.query();
-    
+
     LocationManager().interval = 1;
     LocationManager().distanceFilter = 0;
     LocationManager().notificationTitle = 'CARP Location Example';
@@ -67,7 +78,7 @@ class _MyAppState extends State<MyApp> {
   void getCurrentLocation() async =>
       onData(await LocationManager().getCurrentLocation());
 
-  void onData(LocationDto dto) {
+  LocationDto onData(LocationDto dto) {
     print(dtoToString(dto));
     LatLng p = new LatLng(dto.latitude, dto.longitude);
     if (p != null) {
@@ -77,13 +88,13 @@ class _MyAppState extends State<MyApp> {
     i++;
     print("inside");
     print(dto);
-    f.insert(dto.latitude, dto.longitude);
-    if(i==1){
-    _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(dto.latitude, dto.longitude),
-      zoom: 18.0,
-    )));}
-    //print(points);
+    f.insert(dto.latitude, dto.longitude,'${DateTime.fromMillisecondsSinceEpoch(dto.time ~/ 1)}');
+    if (i == 1) {
+      _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(dto.latitude, dto.longitude),
+        zoom: 18.0,
+      )));
+    }
     setState(() {
       lastLocation = dto;
       lastTimeLocation = DateTime.now();
@@ -96,6 +107,7 @@ class _MyAppState extends State<MyApp> {
             width: 4));
       }
     });
+    return dto;
   }
 
   /// Is "location always" permission granted?
@@ -174,7 +186,7 @@ class _MyAppState extends State<MyApp> {
   void dispose() => super.dispose();
   GoogleMapController _controller;
 
-  static const LatLng _center = const LatLng(36.2798501, 36.2772437);
+  static const LatLng _center = const LatLng(33.5255495, 36.2772437);
 
   void _onMapCreated(GoogleMapController controller) {
     print('createddddddddddd');
@@ -185,15 +197,16 @@ class _MyAppState extends State<MyApp> {
   Future<void> draw() async {
     dpoints = await f.query();
     print('done');
+    print(points);
     print(dpoints);
-     
-      polyline.add(Polyline(
-          polylineId: PolylineId('$i'),
-          points: dpoints,
-          visible: true,
-          color: Colors.green,
-          width: 20));
-   
+    print("dana");
+
+    polyline.add(Polyline(
+        polylineId: PolylineId('$i'),
+        points: dpoints,
+        visible: true,
+        color: Colors.deepPurple,
+        width: 1));
   }
 
   @override
@@ -207,7 +220,7 @@ class _MyAppState extends State<MyApp> {
             GoogleMap(
               onMapCreated: _onMapCreated,
               polylines: polyline,
-              initialCameraPosition: CameraPosition(
+              initialCameraPosition: const CameraPosition(
                 target: _center,
                 zoom: 11.0,
               ),
@@ -217,11 +230,10 @@ class _MyAppState extends State<MyApp> {
                 child: Align(
                     alignment: Alignment.topRight,
                     child: FloatingActionButton(
-                      onPressed: draw,
-                      materialTapTargetSize: MaterialTapTargetSize.padded,
-                      backgroundColor: Colors.green,
-                      child: Text("Draw")
-                    ))),
+                        onPressed: draw,
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
+                        backgroundColor: Colors.purple,
+                        child: Text("Draw")))),
           ])),
     );
   }
