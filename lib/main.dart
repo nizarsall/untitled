@@ -30,15 +30,12 @@ void backgroundFetchHeadlessTask(HeadlessTask task) async {
 
   var prefs = await SharedPreferences.getInstance();
 
-  // Read fetch_events from SharedPreferences
   var events = <String>[];
   var json = prefs.getString(EVENTS_KEY);
   if (json != null) {
     events = jsonDecode(json).cast<String>();
   }
-  // Add new event.
   events.insert(0, "$taskId@$timestamp [Headless]");
-  // Persist fetch events in SharedPreferences
   prefs.setString(EVENTS_KEY, jsonEncode(events));
 
   if (taskId == 'flutter_background_fetch') {
@@ -124,7 +121,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    // Load persisted fetch events from SharedPreferences
     var prefs = await SharedPreferences.getInstance();
     var json = prefs.getString(EVENTS_KEY);
     if (json != null) {
@@ -149,9 +145,7 @@ class _MyAppState extends State<MyApp> {
       ), _onBackgroundFetch, _onBackgroundFetchTimeout);
       print('[BackgroundFetch] configure success: $status');
 
-      // Schedule a "one-shot" custom-task in 10000ms.
-      // These are fairly reliable on Android (particularly with forceAlarmManager) but not iOS,
-      // where device must be powered (and delay will be throttled by the OS).
+
       BackgroundFetch.scheduleTask(TaskConfig(
           taskId: "yami",
           delay: 100,
@@ -164,27 +158,22 @@ class _MyAppState extends State<MyApp> {
       print("[BackgroundFetch] configure ERROR: $e");
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
+
     if (!mounted) return;
   }
 
   void _onBackgroundFetch(String taskId) async {
     var prefs = await SharedPreferences.getInstance();
     var timestamp = DateTime.now();
-    // This is the fetch-event callback.
     print("[BackgroundFetch] Event received: $taskId");
     setState(() {
       _events.insert(0, "$taskId@${timestamp.toString()}");
     });
-    // Persist fetch events in SharedPreferences
     prefs.setString(EVENTS_KEY, jsonEncode(_events));
 
     if (taskId == "yami") {
       start();
       main();
-      // Schedule a one-shot task when fetch event received (for testing).
       /*
       BackgroundFetch.scheduleTask(TaskConfig(
           taskId: "yami",
@@ -198,8 +187,7 @@ class _MyAppState extends State<MyApp> {
       ));
        */
     }
-    // IMPORTANT:  You must signal completion of your fetch task or the OS can punish your app
-    // for taking too long in the background.
+
     BackgroundFetch.finish(taskId);
   }
 
