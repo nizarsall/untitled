@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     f.query();
-    
+
     LocationManager().interval = 1;
     LocationManager().distanceFilter = 0;
     LocationManager().notificationTitle = 'CARP Location Example';
@@ -78,11 +78,12 @@ class _MyAppState extends State<MyApp> {
     print("inside");
     print(dto);
     f.insert(dto.latitude, dto.longitude);
-    if(i==1){
-    _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(dto.latitude, dto.longitude),
-      zoom: 18.0,
-    )));}
+    if (i == 1) {
+      _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(dto.latitude, dto.longitude),
+        zoom: 18.0,
+      )));
+    }
     //print(points);
     setState(() {
       lastLocation = dto;
@@ -186,14 +187,14 @@ class _MyAppState extends State<MyApp> {
     dpoints = await f.query();
     print('done');
     print(dpoints);
-     
+    setState(() {
       polyline.add(Polyline(
           polylineId: PolylineId('$i'),
           points: dpoints,
           visible: true,
           color: Colors.green,
           width: 20));
-   
+    });
   }
 
   @override
@@ -206,24 +207,23 @@ class _MyAppState extends State<MyApp> {
           body: Stack(children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreated,
+              
               myLocationEnabled: true,
               polylines: polyline,
               initialCameraPosition: const CameraPosition(
                 target: _center,
                 zoom: 11.0,
-                
               ),
             ),
             Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Align(
-                    alignment: Alignment.topRight,
+                    alignment: Alignment.bottomLeft,
                     child: FloatingActionButton(
-                      onPressed: draw,
-                      materialTapTargetSize: MaterialTapTargetSize.padded,
-                      backgroundColor: Colors.green,
-                      child: Text("Draw")
-                    ))),
+                        onPressed: draw,
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
+                        backgroundColor: Colors.green,
+                        child: Text("Draw")))),
           ])),
     );
   }

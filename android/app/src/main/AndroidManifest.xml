@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
    <application
         android:label="Yami"
@@ -51,7 +52,12 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-
+        <receiver android:name="rekab.app.background_locator.BootBroadcastReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
        <receiver
            android:name="rekab.app.background_locator.LocatorBroadcastReceiver"
            android:enabled="true"
