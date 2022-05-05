@@ -4,12 +4,9 @@ import 'dart:convert';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:background_fetch/background_fetch.dart';
-import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:carp_background_location/carp_background_location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_map_polyline/google_map_polyline.dart';
 import 'database/funcs.dart';
 import 'package:intl/intl.dart';
 
