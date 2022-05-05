@@ -1,9 +1,7 @@
-import 'dart:ffi';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'database_helper.dart';
-import 'dart:convert';
 
 class funcs {
   funcs._privateConstructor();

@@ -1,5 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:background_fetch/background_fetch.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,11 +18,14 @@ final f = funcs.instance;
 
 void main() {
   runApp(MyApp());
+
+
 }
 
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
+
 }
 
 enum LocationStatus { UNKNOWN, INITIALIZED, RUNNING, STOPPED }
@@ -37,7 +44,7 @@ Widget dtoWidget(LocationDto dto) {
         Text(
           '${dto.latitude}, ${dto.longitude}',
         ),
-        Text(
+        const Text(
           '@',
         ),
         Text('${DateTime.fromMillisecondsSinceEpoch(dto.time ~/ 1)}')
@@ -47,7 +54,9 @@ Widget dtoWidget(LocationDto dto) {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<DateTime> _events = [];
+  bool _enabled = true;
+  int _bstatus = 0;
+  List<String> _events = [];
 
   String logStr = '';
   LocationDto lastLocation;
@@ -64,6 +73,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
+
     f.query();
 
     LocationManager().interval = 1;
@@ -74,6 +84,8 @@ class _MyAppState extends State<MyApp> {
     start();
     _status = LocationStatus.INITIALIZED;
   }
+
+
 
   void getCurrentLocation() async =>
       onData(await LocationManager().getCurrentLocation());
@@ -98,14 +110,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       lastLocation = dto;
       lastTimeLocation = DateTime.now();
-      if (i > 1) {
-        polyline.add(Polyline(
-            polylineId: PolylineId('${i}'),
-            points: points,
-            visible: true,
-            color: Colors.red,
-            width: 4));
-      }
     });
     return dto;
   }
@@ -197,9 +201,8 @@ class _MyAppState extends State<MyApp> {
   Future<void> draw() async {
     dpoints = await f.query();
     print('done');
-    print(points);
     print(dpoints);
-    print("dana");
+
 
     polyline.add(Polyline(
         polylineId: PolylineId('$i'),
