@@ -11,11 +11,12 @@ class funcs {
 
   final dbHelper = DatabaseHelper.instance;
 
-  void insert( lat,long) async {
+  void insert( lat,long,time) async {
     // row to insert
     Map<String, dynamic> row = {
       DatabaseHelper.columnLong: long,
-      DatabaseHelper.columnLat: lat
+      DatabaseHelper.columnLat: lat,
+        DatabaseHelper.columnTime:time,
     };
     final id = await dbHelper.insert(row);
     print('inserted row id: $id');
