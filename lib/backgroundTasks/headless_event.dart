@@ -12,11 +12,12 @@ class HeadlessEvent {
     try {
       if(name == Event.BOOT)
         event = params;
-        else if(name == Event.BOOT)
+        else if(name == Event.TERMINATE)
           event = dynamic;
 
       }
      catch (e, stacktrace) {
+      return;
     }
   }
 
