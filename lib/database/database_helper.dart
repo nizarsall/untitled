@@ -45,8 +45,7 @@ class DatabaseHelper {
             $columnLong INTEGER NOT NULL,
             $columnLat INTEGER NOT NULL,
             $columnTime STRING  NOT NULL
-          )
-          ''');
+          )          ''');
  
   }
 

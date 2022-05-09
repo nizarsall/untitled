@@ -1,3 +1,4 @@
+
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import './screens/map_view.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   String logStr = '';
 
   int i = 0;
@@ -30,15 +31,27 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     CL.start();
     initPlatformState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      if (AppLifecycleState.detached == state) {
+        CL.stop();
+      }
+    });
   }
 
   @override
-  void dispose() => super.dispose();
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MapView(),
+      home:  MapView(),
     );
   }
 }

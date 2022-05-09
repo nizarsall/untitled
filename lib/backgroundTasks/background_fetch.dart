@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import '../carpBackground/carp_location.dart' as CL;
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/main.dart';
-import '../main.dart';
+
 
 const EVENTS_KEY = "fetch_events";
 
@@ -28,7 +28,7 @@ void backgroundFetchHeadlessTask( HeadlessTask task) async {
 
   var prefs = await SharedPreferences.getInstance();
   if (taskId == "com.dawwar.yami") {
-    main();
+    CL.start();
   }
   var events = <String>[];
   var json = prefs.getString(EVENTS_KEY);
@@ -40,7 +40,8 @@ void backgroundFetchHeadlessTask( HeadlessTask task) async {
 
 
   if (taskId == 'flutter_background_fetch') {
-    main();
+    CL.start();
+    print('bobobobobo');
     BackgroundFetch.scheduleTask(TaskConfig(
         taskId: "com.dawwar.yami",
         delay: 69420,
@@ -49,7 +50,6 @@ void backgroundFetchHeadlessTask( HeadlessTask task) async {
         stopOnTerminate: false,
         enableHeadless: true
     ));
-    main();
   }
   BackgroundFetch.finish(taskId);
 }

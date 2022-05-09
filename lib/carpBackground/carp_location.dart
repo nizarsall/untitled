@@ -58,13 +58,16 @@ Future<bool> askForLocationAlwaysPermission() async {
 
 /// Start listening to location events.
 void start() async {
+  stop();
   // ask for location permissions, if not already granted
-  await askForLocationAlwaysPermission();
   if (kDebugMode) {
     print('startedddddddddddd');
   }
   CarpLocationSettings();
   locationSubscription?.cancel();
+  if (kDebugMode) {
+    print('startedddddddddddd');
+  }
   locationSubscription = locationStream?.listen(onData);
   await LocationManager().start();
 }
